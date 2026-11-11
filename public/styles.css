@@ -1,3 +1,12 @@
+/* Lettertypes staan in het project zelf: geen verzoeken naar andere partijen. */
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; font-style: normal; font-display: swap; src: url("fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-style: normal; font-display: swap; src: url("fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-style: normal; font-display: swap; src: url("fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 500; font-style: normal; font-display: swap; src: url("fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Sans"; font-weight: 600; font-style: normal; font-display: swap; src: url("fonts/ibm-plex-sans-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-style: normal; font-display: swap; src: url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 500; font-style: normal; font-display: swap; src: url("fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+
 /* Layout: één leeskolom met de feed, rechts een smalle rail.
    Vormtaal van bewegwijzering: vierkante hoeken, smal kapitaal, nooduitgang-groen.
    Markeerstift-geel is alleen voor wat echt is. */
@@ -61,6 +70,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -275,9 +286,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   color: var(--bg);
 }
 
-/* ---------- Schrijfvak ---------- */
+/* ---------- Panelen: inloggen en schrijven ---------- */
 
-.composer {
+.panel {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -293,7 +304,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   gap: 0.4rem;
 }
 
-#composerForm {
+.form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -325,6 +336,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .optional { font-weight: 400; color: var(--muted); }
 
 .field input[type="text"],
+.field input[type="password"],
 .field input[type="number"],
 .field select,
 .field textarea {
@@ -435,7 +447,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .nep-hits s { text-decoration-color: var(--red); text-decoration-thickness: 2px; }
 
-.composer-foot {
+.form-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -545,7 +557,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   overflow-wrap: anywhere;
 }
 
-.post-text { font-size: var(--step-1); line-height: 1.45; }
+.post-text { font-size: var(--step-1); line-height: 1.45; white-space: pre-line; }
 
 .pair { display: flex; flex-direction: column; gap: 0.15rem; }
 
@@ -564,7 +576,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   text-decoration-thickness: 2px;
 }
 
-.real { font-size: var(--step-1); line-height: 1.6; }
+.real { font-size: var(--step-1); line-height: 1.6; white-space: pre-line; }
 
 /* Meeting als kassabon */
 
@@ -656,6 +668,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .react[aria-pressed="true"] .n { color: var(--ink); }
 
+.react:disabled { cursor: progress; }
+
+.react.is-static { cursor: default; }
+.react.is-static:hover { border-color: var(--line); }
+
 .own-actions {
   display: flex;
   flex-wrap: wrap;
@@ -663,6 +680,33 @@ button, input, select, textarea { font: inherit; color: inherit; }
   gap: 0.4rem;
   font-size: var(--step--1);
 }
+
+.muted { color: var(--muted); }
+
+.tag-alert { border-color: var(--red); color: var(--red); }
+
+.more { align-self: center; }
+
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+
+.field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.field-row input { flex: 1 1 12rem; min-width: 0; }
+
+.btn:disabled { opacity: 0.6; cursor: progress; }
 
 .empty {
   padding: 1.5rem 1.25rem;
@@ -717,6 +761,41 @@ button, input, select, textarea { font: inherit; color: inherit; }
   width: 0.45rem;
   height: 0.45rem;
   background: var(--exit);
+}
+
+.rail-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+
+.rail-box .form, .rail-box #accountActions { width: 100%; }
+
+.invites {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.invites li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.6rem;
+  font-size: var(--step--1);
+}
+
+.invite-code {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  user-select: all;
 }
 
 .proto-note {

@@ -1,0 +1,14 @@
+{
+  "name": "linkedout",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Het netwerk voor wat je echt denkt over werk.",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "test": "node --disable-warning=ExperimentalWarning --test",
+    "invite": "node --disable-warning=ExperimentalWarning server/cli.js invite"
+  }
+}

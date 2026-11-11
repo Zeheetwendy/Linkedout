@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LinkedOut</title>
+<meta name="description" content="Het netwerk voor wat je echt denkt over werk.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page" id="top">
+
+  <header class="masthead">
+    <a class="logo" href="#top" aria-label="LinkedOut, naar boven">
+      <span class="logo-word">Linked</span><span class="logo-sign">Out
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M3 12h16M13 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+    <div class="alias" id="account" hidden>
+      <span class="alias-label">Je post als</span>
+      <strong class="alias-name" id="aliasName"></strong>
+      <button type="button" class="btn btn-quiet" id="logoutBtn">Uitloggen</button>
+    </div>
+  </header>
+
+  <section class="intro">
+    <h1>Het netwerk voor wat je <span class="marker">echt</span> denkt over werk.</h1>
+    <p>Geen "trots om aan te kondigen". Wel: waarom je echt wegging, welke meeting niet had gehoeven, en wat we normaal zijn gaan vinden terwijl het dat niet is.</p>
+  </section>
+
+  <div class="layout">
+    <main class="main">
+
+      <p class="notice" id="bootNotice" role="status">Even laden.</p>
+
+      <section class="panel" id="authPanel" aria-labelledby="authTitle" hidden>
+        <h2 class="eyebrow" id="authTitle">Besloten: alleen op uitnodiging</h2>
+        <div class="type-tabs" role="group" aria-label="Inloggen of aanmelden">
+          <button type="button" class="chip" id="tabLogin" aria-pressed="true">Inloggen</button>
+          <button type="button" class="chip" id="tabRegister" aria-pressed="false">Ik heb een uitnodiging</button>
+        </div>
+
+        <form class="form" id="loginForm" novalidate>
+          <div class="fields">
+            <div class="field half">
+              <label for="loginAlias">Schuilnaam</label>
+              <input type="text" id="loginAlias" autocomplete="username" maxlength="30">
+              <p class="error" id="loginAlias-err" hidden></p>
+            </div>
+            <div class="field half">
+              <label for="loginPassword">Wachtwoord</label>
+              <input type="password" id="loginPassword" autocomplete="current-password" maxlength="200">
+              <p class="error" id="loginPassword-err" hidden></p>
+            </div>
+          </div>
+          <div class="form-foot">
+            <p class="status" id="loginStatus" role="status"></p>
+            <button type="submit" class="btn btn-primary">Log in</button>
+          </div>
+          <p class="hint">Wachtwoord kwijt? Vraag de beheerder om een tijdelijk wachtwoord.</p>
+        </form>
+
+        <form class="form" id="registerForm" novalidate hidden>
+          <div class="fields">
+            <div class="field">
+              <label for="regCode">Uitnodigingscode</label>
+              <input type="text" id="regCode" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" placeholder="XXXX-XXXX-XXXX">
+              <p class="error" id="regCode-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="regAlias">Schuilnaam</label>
+              <div class="field-row">
+                <input type="text" id="regAlias" autocomplete="username" maxlength="30">
+                <button type="button" class="btn" id="regAliasBtn">Verzin er een</button>
+              </div>
+              <p class="hint">Zo zien anderen je. Kies iets wat niet naar jou te herleiden is.</p>
+              <p class="error" id="regAlias-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="regPassword">Wachtwoord</label>
+              <input type="password" id="regPassword" autocomplete="new-password" maxlength="200">
+              <p class="hint">Minstens 10 tekens. Een zin van een paar woorden werkt goed.</p>
+              <p class="error" id="regPassword-err" hidden></p>
+            </div>
+          </div>
+          <div class="form-foot">
+            <p class="status" id="registerStatus" role="status"></p>
+            <button type="submit" class="btn btn-primary">Maak account</button>
+          </div>
+          <p class="hint">Je geeft geen e-mailadres of echte naam op. We bewaren alleen je schuilnaam en een versleutelde vorm van je wachtwoord.</p>
+        </form>
+      </section>
+
+      <section class="panel" id="composer" aria-labelledby="composerTitle" hidden>
+        <h2 class="eyebrow" id="composerTitle">Wat wil je kwijt?</h2>
+        <div class="type-tabs" id="typeTabs" role="group" aria-label="Soort post"></div>
+        <form class="form" id="composerForm" novalidate>
+          <div class="fields" id="fields"></div>
+          <div class="nep" id="nep" aria-live="polite"></div>
+          <div class="form-foot">
+            <p class="status" id="status" role="status"></p>
+            <button type="submit" class="btn btn-primary" id="submitBtn">Plaats eerlijk</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="feed-wrap" id="feedWrap" aria-labelledby="feedTitle" hidden>
+        <div class="toolbar">
+          <h2 class="eyebrow" id="feedTitle">De feed</h2>
+          <label class="sort" for="sortSelect" id="sortWrap">Sorteer
+            <select id="sortSelect">
+              <option value="nieuw">Nieuwste eerst</option>
+              <option value="herkenbaar">Meest herkenbaar</option>
+            </select>
+          </label>
+        </div>
+        <div class="filters" id="filters" role="group" aria-label="Filter op soort post"></div>
+        <p class="status" id="feedStatus" role="status"></p>
+        <ol class="feed" id="feed"></ol>
+        <button type="button" class="btn more" id="moreBtn" hidden>Laad oudere posts</button>
+      </section>
+
+    </main>
+
+    <aside class="rail" aria-label="Over LinkedOut">
+      <section class="waste" id="waste" hidden>
+        <p class="eyebrow">Verspild volgens de feed</p>
+        <p class="waste-num"><span id="wasteHours">0</span> <span class="waste-unit">mensuren</span></p>
+        <p class="waste-note" id="wasteNote"></p>
+      </section>
+
+      <section class="rules">
+        <h2 class="eyebrow">Huisregels</h2>
+        <ul>
+          <li>Eerlijk is iets anders dan gemeen.</li>
+          <li>Geen namen van personen. Beschrijf wat iemand deed.</li>
+          <li>Vertel wat je zelf meemaakte, niet wat je hoorde.</li>
+          <li>Kantoortaal mag, maar de nep-detector leest mee.</li>
+          <li>Geen advertenties, geen gesponsorde posts, geen algoritme.</li>
+        </ul>
+      </section>
+
+      <section class="rail-box" id="invitePanel" hidden>
+        <h2 class="eyebrow">Iemand uitnodigen</h2>
+        <p class="hint">Elke code werkt één keer en is 14 dagen geldig.</p>
+        <button type="button" class="btn" id="inviteBtn">Maak een uitnodiging</button>
+        <p class="status" id="inviteStatus" role="status"></p>
+        <ul class="invites" id="inviteList"></ul>
+      </section>
+
+      <section class="rail-box" id="accountPanel" hidden>
+        <h2 class="eyebrow">Je account</h2>
+        <div id="accountActions"></div>
+      </section>
+
+      <p class="proto-note" id="footNote">Besloten proefversie. Alleen mensen met een account kunnen posts lezen en plaatsen.</p>
+    </aside>
+  </div>
+
+</div>
+<script src="schema.js"></script>
+<script src="seed.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
